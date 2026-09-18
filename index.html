@@ -1,0 +1,30 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MathProf DZ — Alpha V3</title><link rel="stylesheet" href="styles.css"></head>
+<body>
+<aside><div class="brand">∑ <b>MathProf DZ</b><small>منصة الأستاذ الجزائري للرياضيات</small></div>
+<nav><a class="active">لوحة التحكم</a><a>بنك التمارين</a><a>المذكرات</a><a>الفروض والاختبارات</a><a>مكتبتي</a><a>الأدوات</a><a>Premium</a></nav>
+<div class="profile"><span>أ</span><div><b>أستاذ الرياضيات</b><small>متوسطة نموذجية</small></div></div></aside>
+<main><header><a href="login.html" style="background:#172033;color:#fff;padding:9px 13px;border-radius:9px;text-decoration:none;font-size:12px">🔐 دخول الأستاذ</a><a href="profile.html" style="padding:9px 13px;border-radius:9px;text-decoration:none;font-size:12px">👨‍🏫 الملف المهني</a><a href="auth.html" style="background:#172033;color:#fff;padding:9px 13px;border-radius:9px;text-decoration:none;font-size:12px">👨‍🏫 الملف المهني</a><div><small>مساحة الأستاذ</small><h1>لوحة التحكم</h1></div><button class="outline">🔔</button><div class="build-status" title="حالة النسخة">Alpha V4 • بنية Backend قيد الاختبار</div></header>
+<section class="identity"><div><span class="tag">🔒 هوية مهنية محفوظة</span><h2>الأستاذ(ة): بيانات الحساب</h2><p>متوسطة: بيانات الملف المهني • المادة: الرياضيات</p></div><button>إدارة الملف المهني</button></section>
+<h2 class="section">إنجاز سريع</h2><section class="cards">
+<button onclick="newDoc('مذكرة')"><i>📝</i><b>مذكرة جديدة</b><small>قالب مؤسسي مع الهوية</small></button>
+<button onclick="newDoc('فرض')"><i>📄</i><b>فرض جديد</b><small>تمارين + تنقيط + تصحيح</small></button>
+<button onclick="newDoc('اختبار')"><i>📋</i><b>اختبار جديد</b><small>نسخة التلميذ والحل</small></button>
+<button onclick="newDoc('تمارين')"><i>🧮</i><b>ورقة تمارين</b><small>من بنك التمارين</small></button></section>
+<section class="two"><div class="panel"><div class="head"><h2>بنك التمارين</h2><button onclick="filterExercises()">تصفح البنك</button></div>
+<div class="filters"><select id="level"><option>4AM</option><option>3AM</option><option>2AM</option><option>1AM</option></select><input id="search" placeholder="ابحث عن تمرين..."></div>
+<div id="exerciseList"><article><b>تمرين: القاسم المشترك الأكبر</b><small>4AM • أعداد وحساب • متوسط</small><button onclick="addExercise(this)">＋ إضافة</button></article>
+<article><b>تمرين: النشر والتحليل</b><small>4AM • حساب حرفي • متوسط</small><button onclick="addExercise(this)">＋ إضافة</button></article>
+<article><b>تمرين: المعادلات</b><small>4AM • حساب حرفي • متدرج</small><button onclick="addExercise(this)">＋ إضافة</button></article></div></div>
+<div class="panel"><div class="head"><h2>آخر الوثائق</h2><button>مكتبتي</button></div><div class="doc">📄 <div><b>فرض الرياضيات — 4AM</b><small>مسودة • اليوم</small></div></div><div class="doc">📝 <div><b>مذكرة — النشر والتحليل</b><small>محفوظة • أمس</small></div></div><div class="doc">📋 <div><b>اختبار الفصل — 4AM</b><small>معتمد شخصيًا • 16 سبتمبر</small></div></div></div></section>
+<section class="assessment panel" id="assessment">
+<div class="head"><div><h2>استوديو الفروض والاختبارات</h2><small>أنشئ نسخة التلميذ والتصحيح من نفس الوثيقة</small></div>
+<select id="assessmentType" onchange="setAssessmentType(this.value)"><option>فرض</option><option>اختبار</option></select></div>
+<div class="assessmentGrid">
+<div><h3>التمارين المختارة</h3><div id="selectedExercises" class="selectedList"><div class="empty">لم تضف تمارين بعد.</div></div>
+<button onclick="addSampleExercise()">＋ إضافة تمرين تجريبي</button></div>
+<div class="summary"><h3>ملخص التنقيط</h3><div class="total"><span>المجموع</span><b id="totalPoints">0 / 20</b></div><p id="pointsState">أضف تمارين ثم اضبط النقاط.</p><button class="dark" onclick="buildStudent()">👨‍🎓 إنشاء نسخة التلميذ</button><button onclick="buildSolution()">✅ إنشاء التصحيح</button></div>
+</div>
+<div id="previewBox" class="previewBox"></div>
+</section>
+<section class="builder" id="builder"><div class="head"><h2>المسودة الحالية</h2><span id="docType">لا توجد وثيقة</span></div><div class="paper"><div class="official"><b>الجمهورية الجزائرية الديمقراطية الشعبية</b><br>وزارة التربية الوطنية<br>مديرية التربية لولاية: ................<br>متوسطة: ................<br>الأستاذ(ة): ................</div><hr><h3 id="title">عنوان الوثيقة</h3><p>المادة: الرياضيات • المستوى: 4AM • السنة الدراسية: 2026–2027</p><div id="blocks"><div class="empty">أنشئ وثيقة ثم أضف التمارين من بنك التمارين.</div></div></div><div class="builderActions"><button onclick="studentVersion()">👨‍🎓 نسخة التلميذ</button><button onclick="solutionVersion()">✅ التصحيح</button><button onclick="window.print()">🖨️ طباعة / PDF</button></div></section>
+</main><script src="app.js"></script></body></html>

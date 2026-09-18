@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MathProf DZ — دخول الأستاذ</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<style>
+.auth{max-width:560px;margin:55px auto;padding:20px}.box{background:#fff;border:1px solid #e3e7ee;border-radius:18px;padding:28px;box-shadow:0 15px 40px #11182710}
+.field{margin:13px 0}.field label{display:block;font-size:13px;margin-bottom:7px}.field input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d8dee8;border-radius:9px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.actions button{padding:11px 15px;border-radius:9px;border:1px solid #d8dee8;cursor:pointer}.dark{background:#172033;color:white;border-color:#172033!important}
+.msg{margin-top:15px;font-size:13px;min-height:22px}.hint{font-size:12px;color:#64748b;background:#f6f8fb;padding:11px;border-radius:9px}
+</style>
+</head>
+<body><main class="auth"><div class="box">
+<h1>👨‍🏫 MathProf DZ</h1><h2>دخول الأستاذ</h2>
+<div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="email"></div>
+<div class="field"><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password"></div>
+<div class="actions"><button class="dark" onclick="login()">تسجيل الدخول</button><button onclick="signup()">إنشاء حساب</button><button onclick="location.href='index.html'">العودة</button></div>
+<div id="msg" class="msg"></div>
+<div class="hint">هذه النسخة تستخدم Supabase Auth الحقيقي. لا تشارك كلمة مرورك معنا.</div>
+</div></main>
+<script>
+const {createClient}=supabase;
+const client=createClient(window.MATHPROF_SUPABASE.url,window.MATHPROF_SUPABASE.publishableKey);
+const msgEl=document.getElementById('msg');
+function msg(t){msgEl.textContent=t}
+async function signup(){
+ const email=document.getElementById('email').value.trim(), password=document.getElementById('password').value;
+ if(!email || password.length<8){msg('أدخل بريدًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.');return}
+ const {data,error}=await client.auth.signUp({email,password});
+ if(error){msg('تعذر إنشاء الحساب: '+error.message);return}
+ msg(data.session?'تم إنشاء الحساب والدخول.':'تم إنشاء الحساب. تحقق من بريدك إذا كان تأكيد البريد مفعّلًا.');
+ if(data.session) location.href='index.html';
+}
+async function login(){
+ const email=document.getElementById('email').value.trim(), password=document.getElementById('password').value;
+ const {data,error}=await client.auth.signInWithPassword({email,password});
+ if(error){msg('بيانات الدخول غير صحيحة أو الحساب يحتاج تأكيد البريد.');return}
+ msg('تم تسجيل الدخول.');
+ location.href='index.html';
+}
+</script></body></html>

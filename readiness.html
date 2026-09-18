@@ -1,0 +1,15 @@
+<!doctype html><html lang="ar" dir="rtl"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>MathProf DZ — جاهزية</title>
+<style>body{font-family:Tahoma;background:#f4f6fa;padding:30px;color:#182234}.box{max-width:720px;margin:auto;background:#fff;padding:25px;border-radius:15px}.row{padding:12px;border-bottom:1px solid #eee}.ok{color:#18794e}.wait{color:#9a6500}</style>
+<div class="box"><h1>فحص جاهزية MathProf DZ</h1><div id="list">جاري الفحص...</div></div>
+<script>
+fetch('/api/health').then(r=>r.json()).then(x=>{
+const rows=[
+['الخادم',x.ok,'يعمل'],
+['Supabase URL',x.databaseConfigured,'يحتاج إعداد متغيرات البيئة'],
+['المصادقة الإنتاجية',false,'لم تُربط بعد'],
+['الدفع Premium',false,'لم يُربط بعد'],
+['محتوى المنهاج',false,'يحتاج مراجعة واعتماد']
+];
+list.innerHTML=rows.map(r=>`<div class="row"><b>${r[0]}</b>: <span class="${r[1]?'ok':'wait'}">${r[1]?'✓ '+r[2]:'⏳ '+r[2]}</span></div>`).join('');
+});
+</script>
