@@ -1,0 +1,6 @@
+{
+  "name": "mathprof-dz-alpha-v4",
+  "private": true,
+  "scripts": {"start": "node server/server.js", "dev": "node --watch server/server.js"},
+  "dependencies": {"express": "^5.1.0", "helmet": "^8.1.0"}
+}
