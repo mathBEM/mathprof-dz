@@ -1,0 +1,13 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MathProf DZ — حساب الأستاذ</title><link rel="stylesheet" href="styles.css"><style>
+.auth{max-width:760px;margin:60px auto;padding:30px}.authbox{background:#fff;border:1px solid #e2e7ef;border-radius:18px;padding:28px;box-shadow:0 12px 35px #11182710}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{margin:10px 0}.field label{display:block;font-size:12px;margin-bottom:6px}.field input{width:100%;padding:12px;border:1px solid #dce2eb;border-radius:9px}.full{grid-column:1/-1}.actions{display:flex;gap:10px;margin-top:20px}.msg{margin-top:14px;color:#64748b;font-size:12px}.lock{background:#f5f7fa;border-radius:10px;padding:12px;font-size:12px;margin-top:15px}@media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style></head><body><main class="auth"><div class="brand">∑ <b>MathProf DZ</b><small>الملف المهني للأستاذ</small></div><div class="authbox"><h1>إنشاء الملف المهني</h1><p>هذه شاشة تجريبية للمرحلة Alpha. لا تدخل كلمة مرور حقيقية هنا.</p><div class="grid">
+<div class="field"><label>الاسم واللقب</label><input id="name" placeholder="مثال: أحمد بن علي"></div>
+<div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" placeholder="example@email.com"></div>
+<div class="field"><label>الولاية</label><input id="wilaya" placeholder="مثال: سيدي بلعباس"></div>
+<div class="field"><label>مديرية التربية</label><input id="directorate" placeholder="مديرية التربية لولاية ..."></div>
+<div class="field full"><label>اسم المتوسطة</label><input id="school" placeholder="اسم المتوسطة كما يظهر في الوثائق"></div>
+<div class="field"><label>المادة</label><input value="الرياضيات" disabled></div>
+<div class="field"><label>السنة الدراسية</label><input value="2026–2027" disabled></div>
+</div><div class="lock">🔒 الهوية المهنية ستكون مرتبطة بالحساب في النسخة الإنتاجية، ولن تكون قابلة للتعديل من محرر الوثيقة.</div><div class="actions"><button class="dark" onclick="saveProfile()">حفظ الملف التجريبي</button><button onclick="location.href='index.html'">العودة للمنصة</button></div><div id="msg" class="msg"></div></div></main><script>
+function saveProfile(){const p={name:name.value,email:email.value,wilaya:wilaya.value,directorate:directorate.value,school:school.value,subject:'الرياضيات',academicYear:'2026–2027'};localStorage.setItem('mathprof_profile',JSON.stringify(p));msg.textContent='تم حفظ الملف في المتصفح (Prototype فقط).';}
+</script></body></html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MathProf DZ — الملف المهني</title><link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script>
+<style>
+.wrap{max-width:760px;margin:45px auto;padding:20px}.box{background:#fff;border:1px solid #e3e7ee;border-radius:18px;padding:28px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-size:12px;margin-bottom:6px}.field input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d8dee8;border-radius:9px}.full{grid-column:1/-1}.actions{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap}.actions button{padding:11px 15px;border-radius:9px;border:1px solid #d8dee8}.dark{background:#172033;color:#fff}.msg{margin-top:13px;font-size:13px}@media(max-width:650px){.grid{grid-template-columns:1fr}.full{grid-column:auto}}
+</style></head>
+<body><main class="wrap"><div class="box">
+<h1>👨‍🏫 الملف المهني</h1><p id="account"></p>
+<div class="grid">
+<div class="field"><label>الاسم واللقب</label><input id="name"></div>
+<div class="field"><label>البريد</label><input id="email" disabled></div>
+<div class="field"><label>الولاية</label><input id="wilaya"></div>
+<div class="field"><label>مديرية التربية</label><input id="directorate"></div>
+<div class="field full"><label>اسم المتوسطة</label><input id="school"></div>
+<div class="field"><label>المادة</label><input value="الرياضيات" disabled></div>
+<div class="field"><label>السنة الدراسية</label><input value="2026–2027" disabled></div>
+</div>
+<div class="actions"><button class="dark" onclick="save()">حفظ في Supabase</button><button onclick="location.href='index.html'">العودة</button><button onclick="logout()">تسجيل الخروج</button></div>
+<div id="msg" class="msg"></div>
+</div></main>
+<script>
+const {createClient}=supabase; const client=createClient(window.MATHPROF_SUPABASE.url,window.MATHPROF_SUPABASE.publishableKey);
+let user;
+async function init(){
+ const {data:{user:u}}=await client.auth.getUser(); user=u;
+ if(!user){location.href='login.html';return}
+ email.value=user.email; account.textContent='الحساب: '+user.email;
+ const {data,error}=await client.from('professional_profiles').select('*').eq('user_id',user.id).maybeSingle();
+ if(error){msg.textContent='قاعدة البيانات غير مهيأة أو لا تسمح بالوصول بعد.';return}
+ if(data){name.value=data.full_name;wilaya.value=data.wilaya;directorate.value=data.directorate||'';school.value=data.school_name}
+}
+async function save(){
+ if(!name.value.trim()||!wilaya.value.trim()||!school.value.trim()){msg.textContent='أكمل الاسم والولاية واسم المتوسطة.';return}
+ const row={user_id:user.id,full_name:name.value.trim(),school_name:school.value.trim(),wilaya:wilaya.value.trim(),directorate:directorate.value.trim(),subject:'الرياضيات',academic_year:'2026–2027'};
+ const {error}=await client.from('professional_profiles').upsert(row,{onConflict:'user_id'});
+ msg.textContent=error?'تعذر الحفظ: '+error.message:'تم حفظ الملف المهني في Supabase ✓';
+}
+async function logout(){await client.auth.signOut();location.href='login.html'}
+init();
+</script></body></html>
