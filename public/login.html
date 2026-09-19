@@ -29,9 +29,14 @@ function msg(t){msgEl.textContent=t}
 async function signup(){
  const email=document.getElementById('email').value.trim(), password=document.getElementById('password').value;
  if(!email || password.length<8){msg('أدخل بريدًا صحيحًا وكلمة مرور من 8 أحرف على الأقل.');return}
- const {data,error}=await client.auth.signUp({email,password});
+ const redirectTo = `${window.location.origin}/login.html`;
+ const {data,error}=await client.auth.signUp({
+   email,
+   password,
+   options:{emailRedirectTo:redirectTo}
+ });
  if(error){msg('تعذر إنشاء الحساب: '+error.message);return}
- msg(data.session?'تم إنشاء الحساب والدخول.':'تم إنشاء الحساب. تحقق من بريدك إذا كان تأكيد البريد مفعّلًا.');
+ msg(data.session?'تم إنشاء الحساب والدخول.':'تم إنشاء الحساب. افتح رسالة التأكيد الجديدة في بريدك ثم ارجع إلى صفحة الدخول.');
  if(data.session) location.href='index.html';
 }
 async function login(){
