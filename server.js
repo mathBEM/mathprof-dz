@@ -26,6 +26,6 @@ app.get("/api/config-status", (_req,res) => {
 
 app.get("/api/me", (_req,res) => res.status(401).json({authenticated:false}));
 
-app.use(express.static(path.join(__dirname,"../public")));
-app.get("*splat", (_req,res)=>res.sendFile(path.join(__dirname,"../public/index.html")));
+app.use(express.static(path.join(__dirname,"public")));
+app.get("*splat", (_req,res)=>res.sendFile(path.join(__dirname,"public/index.html")));
 app.listen(PORT,()=>console.log(`MathProf DZ listening on ${PORT}`));
